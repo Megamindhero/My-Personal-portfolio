@@ -799,7 +799,7 @@ export default function App() {
             <div className="corner-br" />
             <div className="avatar-inner">
               <img 
-  src="./josep.jpg" 
+  src="/josep.jpg" 
   alt="Josep Kingsley"
   style={{
     width: "100%",
