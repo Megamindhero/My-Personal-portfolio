@@ -338,3 +338,6 @@ main, .nav { position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
   .reveal, .display .line > span { transition: none; animation: none; opacity: 1; transform: none; }
 }
+
+.hint-touch { display: none; }
+@media (hover: none) { .hint-desk { display: none; } .hint-touch { display: inline; } }

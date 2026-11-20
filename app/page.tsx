@@ -290,7 +290,8 @@ export default function Home() {
           </div>
           <footer className="mono dim foot">
             <span>© {new Date().getFullYear()} Josep Kingsley 🦀</span>
-            <span>Move to gather · Click to send a signal · Sound on, bottom left</span>
+            <span className="hint-desk">Move your cursor to raise the blocks · Click for a ripple · Sound, bottom left</span>
+            <span className="hint-touch">Tap the blocks for a ripple · Sound, bottom left</span>
           </footer>
         </section>
       </main>
