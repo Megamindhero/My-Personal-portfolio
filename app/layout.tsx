@@ -6,7 +6,7 @@ import "@fontsource-variable/geist-mono";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Josep Kingsley — Crypto community growth strategist",
+  title: "Josep Kingsley | Crypto community growth strategist",
   description:
     "I build and grow Web3 communities on Discord, Telegram and X. 600 → 3,000+ members, 400% DAU, real numbers.",
   openGraph: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", creator: "@josepkingsley" },
 };
 
-export const viewport: Viewport = { themeColor: "#0a0a09" };
+export const viewport: Viewport = { themeColor: "#0e0c0b" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

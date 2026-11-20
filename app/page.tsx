@@ -84,6 +84,12 @@ export default function Home() {
   const progress = useScrollProgress();
   const [active, setActive] = useState<number | null>(null);
   const tag = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
+  const copyDiscord = () => {
+    navigator.clipboard?.writeText(links.discord).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
 
   useEffect(() => {
     const move = (e: PointerEvent) => {
@@ -132,6 +138,7 @@ export default function Home() {
                 I build and grow Web3 communities on Discord, Telegram and X, and report on them with real numbers.
               </p>
               <p className="mono dim chips">
+                <a href={links.falcon} target="_blank" rel="noreferrer">Community Lead · Falcon</a>
                 <a href={links.mitooshi} target="_blank" rel="noreferrer">Partner · Mitooshi</a>
                 <a href={links.safary} target="_blank" rel="noreferrer">Safary Club · Cohort 1</a>
               </p>
@@ -254,13 +261,17 @@ export default function Home() {
 
         {/* CONTACT */}
         <section id="contact" className="contact">
-          <p className="mono dim reveal">Got a community that should be bigger?</p>
+          <p className="mono dim reveal">Got a community that should be bigger? I&rsquo;m @josepkingsley everywhere.</p>
           <a className="big reveal" href={links.x} target="_blank" rel="noreferrer">
             Let&rsquo;s grow it<span className="dot">.</span>
           </a>
           <div className="contact-links reveal">
             <a href={links.x} target="_blank" rel="noreferrer">X ↗</a>
-            <a href={links.mitooshi} target="_blank" rel="noreferrer">Mitooshi ↗</a>
+            <a href={links.telegram} target="_blank" rel="noreferrer">Telegram ↗</a>
+            <button type="button" className="copy" onClick={copyDiscord}>
+              {copied ? "Copied @josepkingsley" : "Discord @josepkingsley"}
+            </button>
+            <a href={links.linktree} target="_blank" rel="noreferrer">Linktree ↗</a>
             <a href={links.github} target="_blank" rel="noreferrer">GitHub ↗</a>
           </div>
           <footer className="mono dim foot">

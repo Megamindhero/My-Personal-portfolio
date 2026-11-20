@@ -31,9 +31,10 @@ function fbm(x: number, y: number) {
 }
 
 const tmp = new THREE.Object3D();
-const base = new THREE.Color("#22221e");
-const deep = new THREE.Color("#0e0e0c");
-const accentNow = new THREE.Color("#c8ff3d");
+const base = new THREE.Color("#2a2321");
+const deep = new THREE.Color("#110e0d");
+const frog = new THREE.Color("#7fae5b");
+const accentNow = new THREE.Color("#f4907f");
 const accentTarget = new THREE.Color();
 const c = new THREE.Color();
 const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -122,8 +123,9 @@ export default function Field({ size = 56 }: { size?: number }) {
       // color: deep → base by height, top strata + cursor glow in accent
       const n = Math.min(1, y / 8);
       c.copy(deep).lerp(base, n);
-      const glow = Math.min(1, lift / 3 + wave / 2.5 + (y > 6.5 ? 0.55 : 0) + (p.seed > 0.985 ? 0.8 : 0));
+      const glow = Math.min(0.9, lift / 3.4 + wave / 2.8 + (y > 6.5 ? 0.35 : 0));
       c.lerp(accentNow, glow);
+      if (p.seed > 0.988) c.lerp(frog, 0.7);
       m.setColorAt(k, c);
     }
     m.instanceMatrix.needsUpdate = true;

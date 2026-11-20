@@ -22,7 +22,7 @@ export const projects: Project[] = [
     kind: "E-commerce",
     line: "Storefront with catalogue, image storage and WhatsApp checkout.",
     stack: ["Next.js", "TypeScript", "Supabase"],
-    hue: "#ff7ab6",
+    hue: "#e05aa0",
   },
   {
     id: "lodgemate",
@@ -89,13 +89,13 @@ export const stats = [
 ];
 
 export const experience = [
-  { org: "Mitooshi", role: "Partner", note: "Launch videos & distribution for crypto projects", time: "2026 —" },
-  { org: "Polygun", role: "Community Manager", note: "Prediction Desk & PolyGunSniperBot on Telegram + Discord", time: "2024 —" },
-  { org: "ReplicatsAI", role: "Lead Community Strategist", note: "600 → 3,000+ Discord, 400% DAU, weekly Vibe Spaces", time: "2025 — 2026" },
-  { org: "Validatus", role: "Supervisory Blockchain Researcher", note: "Protocol-level research oversight", time: "2024 — 2026" },
-  { org: "Redpill", role: "Community Moderator", note: "Overnight coverage, first response on FUD", time: "2024 — 2025" },
-  { org: "TokenSight", role: "Lead Moderator", note: "Knowledge base & onboarding, 3× faster ramp-up", time: "2023 — 2024" },
-  { org: "SmartFox", role: "Lead Moderator", note: "Cross-platform AMAs, steady through volatility", time: "2021 — 2022" },
+  { org: "Falcon", role: "Community Lead & Tech Support", note: "The leading prediction market API. Community, onboarding and developer support", time: "Now" },
+  { org: "Mitooshi", role: "Partner", note: "Launch videos & distribution for crypto projects", time: "Since 2026" },
+  { org: "ReplicatsAI", role: "Lead Community Strategist", note: "600 → 3,000+ Discord, 400% DAU, weekly Vibe Spaces", time: "2025 to 2026" },
+  { org: "Validatus", role: "Supervisory Blockchain Researcher", note: "Protocol-level research oversight", time: "2024 to 2026" },
+  { org: "Redpill", role: "Community Moderator", note: "Overnight coverage, first response on FUD", time: "2024 to 2025" },
+  { org: "TokenSight", role: "Lead Moderator", note: "Knowledge base & onboarding, 3× faster ramp-up", time: "2023 to 2024" },
+  { org: "SmartFox", role: "Lead Moderator", note: "Cross-platform AMAs, steady through volatility", time: "2021 to 2022" },
 ];
 
 export const playbook = [
@@ -115,7 +115,12 @@ export const links = {
   x: "https://x.com/josepkingsley",
   github: "https://github.com/Megamindhero",
   mitooshi: "https://mitooshi.com",
+  linktree: "https://linktr.ee/Josepkingsley",
+  telegram: "https://t.me/josepkingsley",
+  discord: "josepkingsley",
+  falcon: "https://x.com/FalconAPI",
   safary: "https://x.com/josepkingsley/status/1974573563266158756",
 };
 
-export const ACCENT = "#c8ff3d";
+export const ACCENT = "#f4907f"; // salmon from the X banner
+export const FROG = "#7fae5b"; // second tone, used sparingly
