@@ -116,7 +116,7 @@ export default function Home() {
       <SoundDock />
       <div className="progress" style={{ transform: `scaleX(${progress})` }} />
 
-      <header className="nav">
+      <header className={`nav ${progress > 0.004 ? "scrolled" : ""}`}>
         <a href="#top" className="mark">JK</a>
         <nav>
           <a href="#record">Communities</a>
