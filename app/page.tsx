@@ -6,6 +6,7 @@ import { projects, stats, experience, links, playbook, article } from "@/lib/dat
 import { sceneState, setAccent } from "@/lib/store";
 
 const Scene = dynamic(() => import("@/components/Scene"), { ssr: false });
+import Certificate from "@/components/Certificate";
 const SoundDock = dynamic(() => import("@/components/SoundDock"), { ssr: false });
 
 function useReveal() {
@@ -222,10 +223,20 @@ export default function Home() {
           </a>
         </section>
 
+        {/* CERTIFIED */}
+        <section className="block">
+          <div className="block-head reveal">
+            <span className="mono dim">05</span>
+            <h2>Certified</h2>
+            <span className="mono dim">Safary Club · Cohort 1</span>
+          </div>
+          <Certificate proof={links.safary} />
+        </section>
+
         {/* SIDE BUILDS */}
         <section id="builds" className="block">
           <div className="block-head reveal">
-            <span className="mono dim">05</span>
+            <span className="mono dim">06</span>
             <h2>Side builds</h2>
             <span className="mono dim">Built for fun, with AI</span>
           </div>
@@ -270,8 +281,9 @@ export default function Home() {
           <div className="contact-links reveal">
             <a href={links.x} target="_blank" rel="noreferrer">X ↗</a>
             <a href={links.telegram} target="_blank" rel="noreferrer">Telegram ↗</a>
-            <button type="button" className="copy" onClick={copyDiscord}>
-              {copied ? "Copied @josepkingsley" : "Discord @josepkingsley"}
+            <button type="button" className="copy" onClick={copyDiscord} title="Copy Discord username">
+              Discord <span className="copy-ico" aria-hidden>⧉</span>
+              <span className={`copy-tip mono ${copied ? "on" : ""}`}>Copied @josepkingsley</span>
             </button>
             <a href={links.linktree} target="_blank" rel="noreferrer">Linktree ↗</a>
             <a href={links.github} target="_blank" rel="noreferrer">GitHub ↗</a>

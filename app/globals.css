@@ -196,8 +196,15 @@ main, .nav { position: relative; z-index: 2; }
 .big:hover { color: var(--accent); }
 .big .dot { color: var(--accent); }
 .contact-links { display: flex; gap: 28px; font-size: 20px; flex-wrap: wrap; align-items: baseline; }
-.copy { font: inherit; color: inherit; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 0 0 4px; cursor: pointer; transition: border-color 0.3s, color 0.3s; }
-.copy:hover { border-color: var(--accent); color: var(--accent); }
+.copy { position: relative; font: inherit; color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--line); padding: 0 0 4px; cursor: pointer; transition: border-color 0.3s, color 0.3s; }
+.copy:hover, .copy:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.copy-ico { font-size: 0.8em; }
+.copy-tip {
+  position: absolute; left: 50%; bottom: calc(100% + 10px); translate: -50% 6px; white-space: nowrap;
+  background: var(--ink); color: #1a1210; padding: 6px 10px; border-radius: 6px; font-size: 11px;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, translate 0.3s var(--ease);
+}
+.copy-tip.on { opacity: 1; translate: -50% 0; }
 .contact-links a { border-bottom: 1px solid var(--line); padding-bottom: 4px; transition: border-color 0.3s, color 0.3s; }
 .contact-links a:hover { border-color: var(--accent); color: var(--accent); }
 .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 12vh; margin-bottom: 70px; padding-top: 18px; border-top: 1px solid var(--line); }
@@ -241,6 +248,36 @@ main, .nav { position: relative; z-index: 2; }
 .dock-embed { margin-top: 8px; border-radius: 10px; overflow: hidden; }
 .dock-embed iframe { display: block; border-radius: 10px; }
 
+/* CERTIFICATE */
+.cert-wrap { display: grid; grid-template-columns: minmax(0, 1.4fr) 1fr; gap: 40px; align-items: end; padding-top: 32px; perspective: 1400px; }
+.cert {
+  --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%;
+  position: relative; display: block; padding: 0; border: 0; cursor: pointer; background: none;
+  border-radius: 10px; overflow: hidden;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.25s ease-out, box-shadow 0.4s;
+  box-shadow: 0 30px 80px -30px rgba(0,0,0,0.9), 0 0 0 1px var(--line);
+}
+.cert.reveal.in { transform: rotateX(var(--rx)) rotateY(var(--ry)); }
+.cert img { display: block; width: 100%; height: auto; }
+.cert-shine {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,0.55), transparent 45%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.cert:hover .cert-shine { opacity: 1; }
+.cert:hover { box-shadow: 0 40px 90px -30px rgba(244,144,127,0.45), 0 0 0 1px rgba(244,144,127,0.4); }
+.cert:active { transform: scale(0.985); }
+.cert-tap {
+  position: absolute; right: 14px; bottom: 14px; background: rgba(14,12,11,0.85); color: var(--ink);
+  padding: 7px 11px; border-radius: 99px; font-size: 10.5px; animation: tapIn 0.5s var(--ease);
+}
+@keyframes tapIn { from { opacity: 0; transform: translateY(6px); } }
+.cert-meta { display: flex; flex-direction: column; gap: 8px; padding-bottom: 8px; }
+.cert-title { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 52px); line-height: 1; }
+.cert-proof { margin-top: 10px; color: var(--ink); border-bottom: 1px solid var(--line); align-self: flex-start; padding-bottom: 3px; }
+.cert-proof:hover { color: var(--accent); border-color: var(--accent); }
+
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
@@ -263,6 +300,7 @@ main, .nav { position: relative; z-index: 2; }
   .playbook { grid-template-columns: 1fr; }
   .playbook li { min-height: 0; }
   .article { flex-direction: column; align-items: flex-start; }
+  .cert-wrap { grid-template-columns: 1fr; gap: 20px; }
   .nav-clock { display: none; }
   .nav nav { gap: 14px; font-size: 13px; }
 }

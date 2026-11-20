@@ -187,3 +187,9 @@ export function level() {
   }
   return Math.min(1, Math.sqrt(sum / buf.length) * 6);
 }
+
+// little rising arpeggio for celebrations (only when sound is on)
+export function celebrate() {
+  if (!running) return;
+  [0, 2, 4, 6, 9].forEach((i, k) => setTimeout(() => pluck((i + 0.5) / SCALE.length), k * 90));
+}
