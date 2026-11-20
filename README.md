@@ -1,20 +1,23 @@
-# React + Vite
+# Josep Kingsley portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Next.js 15 (static export) + React Three Fiber + Three.js r187.
 
-Currently, two official plugins are available:
+## Edit content
+Everything (projects, dates, stacks, stats, roles, links) lives in `lib/data.ts`.
+Each project's `hue` is the color the 3D field shifts to when you hover it.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run locally
+npm install
+npm run dev        # http://localhost:3000
 
-## React Compiler
+## Deploy to Netlify
+Option A: Git: push this folder to GitHub, "Add new project" in Netlify, pick the repo.
+`netlify.toml` already sets build = `npm run build`, publish = `out`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Option B: Netlify Drop: `npm run build`, then drag the `out/` folder onto app.netlify.com/drop.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# My-Personal-portfolio
-A big shout out to ShadCN, was able to integrate his shadcn-ui to get this crisp interface
-
-Check him out:https://github.com/shadcn-ui/ui
+## Files
+- components/Field.tsx: the interactive block field (cursor lift, click pulse, scroll camera)
+- components/Scene.tsx: canvas, lights, bloom/vignette
+- app/page.tsx: page sections
+- app/globals.css: all styling
