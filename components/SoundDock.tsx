@@ -40,6 +40,14 @@ export default function SoundDock() {
   const holder = useRef<HTMLDivElement>(null);
   const ctrl = useRef<Controller | null>(null);
   const loadedId = useRef<string | null>(null);
+  const [past, setPast] = useState(false);
+
+  useEffect(() => {
+    const on = () => setPast(window.scrollY > window.innerHeight * 0.6);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
 
   // poll what Josep is playing
   useEffect(() => {
@@ -168,7 +176,7 @@ export default function SoundDock() {
   const on = mode !== "off";
 
   return (
-    <div className={`dock ${on ? "on" : ""} ${mode === "spotify" ? "wide" : ""}`}>
+    <div className={`dock ${on ? "on" : ""} ${mode === "spotify" ? "wide" : ""} ${past && !on && !live ? "mini" : ""}`}>
       <div className="dock-row">
         <button type="button" className="dock-btn" onClick={toggle} aria-pressed={on} aria-label={on ? "Sound off" : "Sound on"}>
           <span className={`bars ${on ? "play" : ""}`}>
