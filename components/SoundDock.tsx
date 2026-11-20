@@ -8,6 +8,7 @@ type NowPlaying =
   | { playing: true; id: string; title: string; artist: string; image: string | null; url: string };
 
 type Controller = {
+  addListener: (ev: string, cb: (e: { data: { isPaused: boolean; position: number; duration: number } }) => void) => void;
   loadUri: (uri: string) => void;
   play: () => void;
   pause: () => void;
@@ -36,6 +37,10 @@ function loadSpotifyApi() {
 
 export default function SoundDock() {
   const [np, setNp] = useState<NowPlaying>({ playing: false });
+  // last track we saw, so the dock can still show it after Josep stops
+  const [track, setTrack] = useState<Extract<NowPlaying, { playing: true }> | null>(null);
+  const misses = useRef(0);
+  const josepStopped = useRef(false);
   const [mode, setMode] = useState<"off" | "ambient" | "spotify">("off");
   const holder = useRef<HTMLDivElement>(null);
   const ctrl = useRef<Controller | null>(null);
@@ -58,9 +63,16 @@ export default function SoundDock() {
         const r = await fetch("/api/now-playing", { cache: "no-store" });
         if (!r.ok) throw 0;
         const j = (await r.json()) as NowPlaying;
-        if (alive) setNp(j);
+        if (!alive) return;
+        if (j.playing) {
+          misses.current = 0;
+          setNp(j);
+          setTrack(j);
+        } else if (++misses.current >= 2) {
+          setNp(j);
+        }
       } catch {
-        if (alive) setNp({ playing: false });
+        if (alive && ++misses.current >= 2) setNp({ playing: false });
       }
     };
     get();
@@ -116,6 +128,13 @@ export default function SoundDock() {
     api.createController(el, { uri, width: "100%", height: 80 }, (c) => {
       ctrl.current = c;
       loadedId.current = trackId;
+      // when the song a visitor is hearing finishes and Josep has stopped, fall back to ambient
+      c.addListener("playback_update", (e) => {
+        const d = e?.data;
+        if (!d || !d.duration) return;
+        const ended = d.position >= d.duration - 1200;
+        if (ended && josepStopped.current) fallBack.current?.();
+      });
       try {
         c.play();
       } catch {}
@@ -132,17 +151,20 @@ export default function SoundDock() {
     if (holder.current) holder.current.innerHTML = "";
   }, []);
 
-  // follow Josep: new song → load it; he stops → fall back to ambient
+  const fallBack = useRef<(() => void) | null>(null);
+  fallBack.current = () => {
+    closeSpotify();
+    startAmbient();
+    setMode("ambient");
+  };
+
+  // follow Josep: new song → load it. If he stops, never cut the song a visitor
+  // is hearing; let it finish, then fall back to ambient.
   useEffect(() => {
+    josepStopped.current = !np.playing;
     if (mode !== "spotify") return;
-    if (np.playing) {
-      if (loadedId.current !== np.id) openSpotify(np.id);
-    } else {
-      closeSpotify();
-      startAmbient();
-      setMode("ambient");
-    }
-  }, [np, mode, openSpotify, closeSpotify]);
+    if (np.playing && loadedId.current !== np.id) openSpotify(np.id);
+  }, [np, mode, openSpotify]);
 
   const toggle = async () => {
     if (mode !== "off") {
@@ -173,6 +195,7 @@ export default function SoundDock() {
   };
 
   const live = np.playing;
+  const shown = live ? np : mode === "spotify" ? track : null;
   const on = mode !== "off";
 
   return (
@@ -188,15 +211,21 @@ export default function SoundDock() {
         </button>
 
         <div className="dock-text">
-          {live ? (
-            <a href={np.url} target="_blank" rel="noreferrer" className="dock-track">
-              {np.image && <img src={np.image} alt="" width={30} height={30} />}
+          {shown ? (
+            <a href={shown.url} target="_blank" rel="noreferrer" className="dock-track">
+              {shown.image && <img src={shown.image} alt="" width={30} height={30} />}
               <span>
                 <span className="mono dock-label">
-                  <b className="live-dot" /> Josep is listening
+                  {live ? (
+                    <>
+                      <b className="live-dot" /> Josep is listening
+                    </>
+                  ) : (
+                    "Josep was listening"
+                  )}
                 </span>
                 <span className="dock-title">
-                  {np.title} <em>by {np.artist}</em>
+                  {shown.title} <em>by {shown.artist}</em>
                 </span>
               </span>
             </a>
@@ -208,7 +237,7 @@ export default function SoundDock() {
           )}
         </div>
 
-        {on && live && (
+        {on && (live || mode === "spotify") && (
           <button type="button" className="mono dock-switch" onClick={() => switchTo(mode === "spotify" ? "ambient" : "spotify")}>
             {mode === "spotify" ? "Ambient" : "His song"}
           </button>
