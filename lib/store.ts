@@ -7,6 +7,7 @@ export const sceneState = {
   scroll: 0, // 0..1 page progress
   pulses: [] as { x: number; z: number; t: number }[],
   focus: 0, // 0 idle, 1 a project is hovered
+  level: 0, // ambient loudness, makes the field breathe
 };
 
 export function setAccent(hex: string | null) {

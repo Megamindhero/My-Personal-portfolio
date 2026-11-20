@@ -6,6 +6,7 @@ import { projects, stats, experience, links, playbook, article } from "@/lib/dat
 import { sceneState, setAccent } from "@/lib/store";
 
 const Scene = dynamic(() => import("@/components/Scene"), { ssr: false });
+const SoundDock = dynamic(() => import("@/components/SoundDock"), { ssr: false });
 
 function useReveal() {
   useEffect(() => {
@@ -111,6 +112,7 @@ export default function Home() {
   return (
     <>
       <Scene />
+      <SoundDock />
       <div className="progress" style={{ transform: `scaleX(${progress})` }} />
 
       <header className="nav">
@@ -276,7 +278,7 @@ export default function Home() {
           </div>
           <footer className="mono dim foot">
             <span>© {new Date().getFullYear()} Josep Kingsley 🦀</span>
-            <span>Move to gather · Click to send a signal</span>
+            <span>Move to gather · Click to send a signal · Sound on, bottom left</span>
           </footer>
         </section>
       </main>

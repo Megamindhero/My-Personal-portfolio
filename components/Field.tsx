@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { sceneState } from "@/lib/store";
+import { level } from "@/lib/ambient";
 
 // Strata field: a grid of block columns. Heights come from layered noise,
 // rise under the cursor, ripple on click, and recolor when a project is hovered.
@@ -63,7 +64,7 @@ export default function Field({ size = 56 }: { size?: number }) {
   // click → ripple from the cursor position
   useEffect(() => {
     const onDown = (e: PointerEvent) => {
-      if ((e.target as HTMLElement)?.closest("a,button")) return;
+      if ((e.target as HTMLElement)?.closest("a,button,iframe,.dock")) return;
       if (cursor.current.x > 900) return;
       sceneState.pulses.push({ x: cursor.current.x, z: cursor.current.z, t: performance.now() / 1000 });
       if (sceneState.pulses.length > 6) sceneState.pulses.shift();
@@ -89,7 +90,9 @@ export default function Field({ size = 56 }: { size?: number }) {
     accentNow.lerp(accentTarget, 1 - Math.pow(0.02, dt));
 
     const drift = t * 0.05;
-    const amp = 1 + sceneState.focus * 0.35;
+    const lv = level();
+    sceneState.level += (lv - sceneState.level) * Math.min(1, dt * 4);
+    const amp = 1 + sceneState.focus * 0.35 + sceneState.level * 0.5;
 
     for (let k = 0; k < count; k++) {
       const p = cells[k];
